@@ -1,0 +1,9 @@
+{% extends "layout/default.jinja" %}
+{% block title %}Library List{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h1>Library List</h1>
+    {% include 'views/list_view.jinja' %}
+{% endblock %}

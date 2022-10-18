@@ -1,0 +1,18 @@
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Item Name</th>
+        <th>Author</th>
+        <th>ISBN</th>
+        <th>Actions</th>
+    </tr>
+    {% for row in item_data %}
+        <tr>
+            <td>{{ row.0 }}</td>
+            <td>{{ row.1 }}</td>
+            <td>{{ row.2 }}</td>
+            <td>{{ row.3 }}</td>
+            {% include 'forms/action_form.jinja' %}
+        </tr>
+    {% endfor %}
+</table>

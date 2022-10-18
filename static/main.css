@@ -1,0 +1,20 @@
+header {
+    display: flex;
+}
+
+nav {
+    margin: auto;
+    margin-left: 1em;
+    margin-right: 0px;
+}
+
+nav a {
+    padding: 10px;
+    font-size: 2em;
+    border-left-style: solid;
+}
+
+a {
+    text-decoration: none;
+}
+p {}

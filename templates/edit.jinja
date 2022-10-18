@@ -1,0 +1,9 @@
+{% extends "layout/default.jinja" %}
+{% block title %}Edit Item{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h1>Edit</h1>
+    {% include 'forms/edit_form.jinja' %}
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <title>{% block title %}{% endblock %} - Library Application</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+        {% endblock %}
+    </head>
+    <body>
+        <header>
+            {% block header %}
+                <h1>Ugly Library</h1>
+            {% endblock %}
+            {% block navigation %}
+                {% include 'navigation/main_nav.jinja'%}
+            {% endblock %}
+        </header>
+        <div id="content">{% block content %}{% endblock %}</div>
+        <footer>
+        {% block footer %}
+            <p>&copy Andrew Dempsey - 2022</p>
+        {% endblock %}</footer>
+        
+    </body>
+</html>

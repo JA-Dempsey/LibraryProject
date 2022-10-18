@@ -1,0 +1,10 @@
+{% extends "layout/default.jinja" %}
+{% block title %}Add Item{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h1>Add</h1>
+    <p>Test of the add page.</p>
+    {% include 'forms/add_form.jinja' %}
+{% endblock %}
