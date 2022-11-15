@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
 from LibraryData import LibraryData
+from datetime import date
+
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -42,6 +44,11 @@ def index():
                 results = data.execute('''SELECT name FROM Items WHERE itemsID=%s''', [id])
 
                 return render_template('lend.jinja', id = id, item_data = results)
+
+            if key == 'return':
+                id = request.form[key]
+
+                data.execute('''UPDATE Items SET lendee=%s, dueDate=%s''', ["In Library", "NULL"])
 
         return redirect("/")
 
@@ -89,8 +96,9 @@ def lend():
     if request.method == 'POST':
         id = request.form['save']
         lendee = request.form['lendee']
+        current_date = date.today()
 
-        data.execute('''UPDATE Items SET lendee=%s WHERE itemsID=%s''', [lendee, id])
+        data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s WHERE itemsID=%s''', [lendee, current_date, id])
 
         return redirect('/')
     
