@@ -18,3 +18,24 @@ a {
     text-decoration: none;
 }
 p {}
+
+tr:nth-child(even) {
+    background-color: lightgrey;
+}
+
+table {
+    border: 1px solid grey;
+}
+
+thead tr {
+    background-color: darkgrey;
+}
+
+th, td {
+    padding: 2em;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: left;
+    border-left: 1px solid grey;
+    border-right: none;
+}

@@ -1,0 +1,10 @@
+{% extends "layout/default.jinja" %}
+{% block title %}Lend Item{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <h1>Lend</h1>
+    <p>Name who you want to loan a book to.</p>
+    {% include 'forms/lend_form.jinja' %}
+{% endblock %}

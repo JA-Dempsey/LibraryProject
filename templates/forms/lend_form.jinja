@@ -1,0 +1,9 @@
+<form action="/lend" method="post">
+    {% for row in item_data %}
+        <label for="itemname">Book Name:</label>
+        <input type="text" id="itemname" name="itemname" value="{{row.0}}" disabled>
+        <label for="lendee">Lendee Name:</label>
+        <input type="text" id="lendee" name="lendee">
+    {% endfor %}
+    <button name="save" value="{{ id }}">Save</button>
+</form>

@@ -1,17 +1,23 @@
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Item Name</th>
-        <th>Author</th>
-        <th>ISBN</th>
-        <th>Actions</th>
-    </tr>
-    {% for row in item_data %}
+<table cellspacing="0">
+    <thead>
         <tr>
-            <td>{{ row.0 }}</td>
-            <td>{{ row.1 }}</td>
-            <td>{{ row.2 }}</td>
-            <td>{{ row.3 }}</td>
+            <th>ID</th>
+            <th>Item Name</th>
+            <th>Author</th>
+            <th>ISBN</th>
+            <th>Lendee</th>
+            <th>Due Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    {% for column in item_data %}
+        <tr>
+            <td>{{ column.0 }}</td>
+            <td>{{ column.1 }}</td>
+            <td>{{ column.2 }}</td>
+            <td>{{ column.3 }}</td>
+            <td>{{ column.4 }}</td>
+            <td>{{ column.5 }}</td>
             {% include 'forms/action_form.jinja' %}
         </tr>
     {% endfor %}
