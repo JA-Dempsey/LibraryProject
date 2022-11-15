@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
-
+from LibraryData import LibraryData
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -8,19 +8,15 @@ app.config['MYSQL_USER'] = 'sentientnova'
 app.config['MYSQL_PASSWORD'] = 'YTcqyLuRuqebm6'
 app.config['MYSQL_DB'] = 'library'
 
+
 mysql = MySQL(app)
+data = LibraryData(mysql)
 
 @app.route('/', methods = ['POST', 'GET'])
 def index():
     if request.method == 'GET':
 
-        cursor = mysql.connection.cursor()
-        cursor.execute('''SELECT * FROM Items''')
-        mysql.connection.commit()
-        results = cursor.fetchall()
-        cursor.close
-
-        print(results)
+        results = data.execute('''SELECT * FROM ITEMS''')
 
         return render_template('index.jinja', item_data = results)
 
@@ -29,22 +25,23 @@ def index():
             if key == 'edit':
                 id = request.form[key]
 
-                cursor = mysql.connection.cursor()
-                cursor.execute('''SELECT * FROM Items WHERE itemsId=%s''', id)
-                mysql.connection.commit()
-                results = cursor.fetchall()
-                cursor.close
+                results = data.execute('''SELECT * FROM Items WHERE itemsId=%s''', [id])
+
 
                 return render_template('edit.jinja', id=id, item_data = results)
 
             if key == 'delete':
                 id = request.form[key]
-                cursor = mysql.connection.cursor()
-                cursor.execute('''DELETE FROM Items WHERE itemsId=%s''', id)
-                mysql.connection.commit()
-                cursor.close()
+
+                data.execute('''DELETE FROM Items WHERE itemsId=%s''', [id])
 
                 return redirect("/")
+
+            if key == 'lend':
+                id = request.form[key]
+                results = data.execute('''SELECT name FROM Items WHERE itemsID=%s''', [id])
+
+                return render_template('lend.jinja', id = id, item_data = results)
 
         return redirect("/")
 
@@ -60,14 +57,12 @@ def add():
         author = request.form['author']
         isbn = request.form['isbn']
 
-        cursor = mysql.connection.cursor()
-        cursor.execute(''' INSERT INTO Items (name, author, isbn) VALUES (%s, %s, %s)''', (name, author, isbn))
-        mysql.connection.commit()
-        cursor.close()
+        data.execute(''' INSERT INTO Items (name, author, isbn) VALUES (%s, %s, %s)''', [name, author, isbn])
 
         # Send user back to main library list
         # After adding to database
-        return render_template('index.jinja')
+        return redirect("/")
+    
 
 @app.route('/edit', methods = ['POST', 'GET'])
 def edit():
@@ -81,10 +76,23 @@ def edit():
         author = request.form['author']
         isbn = request.form['isbn']
 
-        cursor = mysql.connection.cursor()
-        cursor.execute('''UPDATE Items SET name=%s, author=%s, isbn=%s WHERE itemsId=%s''', (name, author, isbn, id))
-        mysql.connection.commit()
-        cursor.close()
+        data.execute('''UPDATE Items SET name=%s, author=%s, isbn=%s WHERE itemsId=%s''', [name, author, isbn, id])
+
+        return redirect('/')
+
+@app.route('/lend', methods = ['POST', 'GET'])
+def lend():
+
+    if request.method == 'GET':
+        return render_template('lend.jinja')
+
+    if request.method == 'POST':
+        id = request.form['save']
+        lendee = request.form['lendee']
+
+        data.execute('''UPDATE Items SET lendee=%s WHERE itemsID=%s''', [lendee, id])
 
         return redirect('/')
     
+if __name__ == '__main__':
+    app.run(debug=True)
