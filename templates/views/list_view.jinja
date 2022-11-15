@@ -6,6 +6,7 @@
             <th>Author</th>
             <th>ISBN</th>
             <th>Lendee</th>
+            <th>Checkout Date</th>
             <th>Due Date</th>
             <th>Actions</th>
         </tr>
@@ -18,6 +19,7 @@
             <td>{{ column.3 }}</td>
             <td>{{ column.4 }}</td>
             <td>{{ column.5 }}</td>
+            <td>{{ column.6 }}</td>
             {% include 'forms/action_form.jinja' %}
         </tr>
     {% endfor %}
