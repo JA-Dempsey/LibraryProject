@@ -48,7 +48,7 @@ def index():
             if key == 'return':
                 id = request.form[key]
 
-                data.execute('''UPDATE Items SET lendee=%s, dueDate=%s''', ["In Library", "NULL"])
+                data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s, dueDate=%s''', ["In Library","NULL", "NULL"])
 
         return redirect("/")
 
