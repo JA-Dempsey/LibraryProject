@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
-from LibraryData import LibraryData
+from LibraryData import LibraryData, get_due_date
 from datetime import date
+from time import sleep
+
+
+
 
 app = Flask(__name__)
 
@@ -48,7 +52,7 @@ def index():
             if key == 'return':
                 id = request.form[key]
 
-                data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s, dueDate=%s''', ["In Library","NULL", "NULL"])
+                data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s, dueDate=%s WHERE itemsId = %s''', ["In Library","NULL", "NULL", id])
 
         return redirect("/")
 
@@ -98,7 +102,9 @@ def lend():
         lendee = request.form['lendee']
         current_date = date.today()
 
-        data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s WHERE itemsID=%s''', [lendee, current_date, id])
+        due_date = get_due_date()
+
+        data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s, dueDate=%s WHERE itemsID=%s''', [lendee, current_date, due_date, id])
 
         return redirect('/')
     

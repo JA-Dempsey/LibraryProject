@@ -1,3 +1,6 @@
+import requests
+from datetime import datetime, timedelta
+
 class LibraryData:
     """Class for pulling data from a database."""
 
@@ -21,3 +24,16 @@ class LibraryData:
         self.last = results
 
         return results
+
+def get_due_date():
+    response = requests.post(
+        'http://localhost:47774/checkout',
+        data='{"allowed_days_checkout":"4"}',
+        headers={'Content-Type': 'application/json'})
+
+    result = response.json()
+    date = datetime(2022,1,1) + timedelta(days=result['date_due'])
+    
+    return date
+    
+
