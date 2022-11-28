@@ -28,11 +28,12 @@ class LibraryData:
 def get_due_date():
     response = requests.post(
         'http://localhost:47774/checkout',
-        data='{"allowed_days_checkout":"4"}',
+        data='{"allowed_days_checkout":"5"}',
         headers={'Content-Type': 'application/json'})
 
     result = response.json()
-    date = datetime(2022,1,1) + timedelta(days=result['date_due'])
+    print(result)
+    date = (datetime(2022,1,1) - timedelta(days=1)) + timedelta(days=result['date_due'])
     
     return date
     

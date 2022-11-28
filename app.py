@@ -5,8 +5,6 @@ from datetime import date
 from time import sleep
 
 
-
-
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -18,41 +16,35 @@ app.config['MYSQL_DB'] = 'library'
 mysql = MySQL(app)
 data = LibraryData(mysql)
 
-@app.route('/', methods = ['POST', 'GET'])
+@app.route('/', methods = ['GET'])
 def index():
     if request.method == 'GET':
-
         results = data.execute('''SELECT * FROM ITEMS''')
-
         return render_template('index.jinja', item_data = results)
 
+@app.route('/return', methods = ['POST'])
+def return_book():
     if request.method == 'POST':
-        for key in request.form.keys():
-            if key == 'edit':
-                id = request.form[key]
+        # Get data from the form clicked.
+        key = list(request.form.keys())[0]
 
-                results = data.execute('''SELECT * FROM Items WHERE itemsId=%s''', [id])
+        # Get the type and the id # of the item's form clicked
+        id = request.form[key]
 
+        data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s, dueDate=%s WHERE itemsId = %s''', ["In Library","NULL", "NULL", id])
 
-                return render_template('edit.jinja', id=id, item_data = results)
+        return redirect("/")
 
-            if key == 'delete':
-                id = request.form[key]
+@app.route('/delete', methods =['POST'])
+def delete():
+    if request.method == 'POST':
+        # Get data from the form clicked.
+        key = list(request.form.keys())[0]
 
-                data.execute('''DELETE FROM Items WHERE itemsId=%s''', [id])
+        # Get the type and the id # of the item's form clicked
+        id = request.form[key]
 
-                return redirect("/")
-
-            if key == 'lend':
-                id = request.form[key]
-                results = data.execute('''SELECT name FROM Items WHERE itemsID=%s''', [id])
-
-                return render_template('lend.jinja', id = id, item_data = results)
-
-            if key == 'return':
-                id = request.form[key]
-
-                data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s, dueDate=%s WHERE itemsId = %s''', ["In Library","NULL", "NULL", id])
+        data.execute('''DELETE FROM Items WHERE itemsId=%s''', [id])
 
         return redirect("/")
 
@@ -67,8 +59,9 @@ def add():
         name = request.form['itemname']
         author = request.form['author']
         isbn = request.form['isbn']
+        category = request.form['category']
 
-        data.execute(''' INSERT INTO Items (name, author, isbn) VALUES (%s, %s, %s)''', [name, author, isbn])
+        data.execute(''' INSERT INTO Items (name, author, isbn, category) VALUES (%s, %s, %s, %s)''', [name, author, isbn, category])
 
         # Send user back to main library list
         # After adding to database
@@ -79,15 +72,19 @@ def add():
 def edit():
 
     if request.method == 'GET':
-        return render_template('edit.jinja')
+
+        id = request.values['edit']
+        results = data.execute('''SELECT * FROM Items WHERE itemsId=%s''', [id])
+        return render_template('edit.jinja', id=id, item_data = results)
 
     if request.method == 'POST':
         id = request.form['save']
         name = request.form['itemname']
         author = request.form['author']
         isbn = request.form['isbn']
+        category = request.form['category']
 
-        data.execute('''UPDATE Items SET name=%s, author=%s, isbn=%s WHERE itemsId=%s''', [name, author, isbn, id])
+        data.execute('''UPDATE Items SET name=%s, author=%s, isbn=%s, category=%s WHERE itemsId=%s''', [name, author, isbn, category, id])
 
         return redirect('/')
 
@@ -95,7 +92,11 @@ def edit():
 def lend():
 
     if request.method == 'GET':
-        return render_template('lend.jinja')
+        # Get id value from request
+        id = request.values['lend']
+
+        results = data.execute('''SELECT name FROM Items WHERE itemsID=%s''', [id])
+        return render_template('lend.jinja', id = id, item_data = results)
 
     if request.method == 'POST':
         id = request.form['save']
@@ -107,6 +108,22 @@ def lend():
         data.execute('''UPDATE Items SET lendee=%s, checkoutDate=%s, dueDate=%s WHERE itemsID=%s''', [lendee, current_date, due_date, id])
 
         return redirect('/')
-    
+
+@app.route('/search', methods = ['POST'])
+def search():
+    # Get data from the form clicked.
+    key = list(request.form.keys())[0]
+
+    # Build list for the SQL query, must contain
+    # One value for each %s replaced in the SQL Query
+    value = ['%' + str(request.form[key]) + '%']*5
+
+    print(value)
+
+    results = data.execute('''SELECT * FROM ITEMS WHERE name LIKE %s OR author LIKE %s OR isbn LIKE %s OR lendee like %s OR category LIKE %s''', value)
+
+    return render_template('index.jinja', item_data = results)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
