@@ -1,8 +1,16 @@
 <td>
-    <form action="" method="post">
-        <button name="edit" value="{{ column.0 }}">Edit</button>
-        <button name="lend" value="{{ column.0 }}">Lend</button>
-        <button name="return" value="{{ column.0}}">Return</button>
-        <button name="delete" value="{{ column.0 }}">Delete</button>
-    </form>
+    <div id="actions">
+        <form action="/edit" method="get">
+            <button name="edit" value="{{ column.0 }}">Edit</button>
+        </form>
+        <form action="/lend" method="get">
+            <button name="lend" value="{{ column.0 }}">Lend</button>
+        </form>
+        <form action="/return" method="post">
+            <button name="return" value="{{ column.0}}">Return</button>
+        </form>
+        <form action="/delete" method="post">
+            <button name="delete" value="{{ column.0 }}">Delete</button>
+        </form>
+    </div>
 </td>

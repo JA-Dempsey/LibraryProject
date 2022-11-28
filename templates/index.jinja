@@ -4,6 +4,9 @@
     {{ super() }}
 {% endblock %}
 {% block content %}
+    <div id="search-block">
     <h1>Library List</h1>
+    {% include 'search.jinja'%}
+    </div>
     {% include 'views/list_view.jinja' %}
 {% endblock %}

@@ -39,3 +39,41 @@ th, td {
     border-left: 1px solid grey;
     border-right: none;
 }
+
+div #actions {
+    align-items: center;
+    display: flex;
+}
+
+div #actions form {
+    display: flex;
+}
+
+div #actions form button {
+    padding: 4px;
+    margin: 2px;
+}
+
+div #search-block {
+    align-items: center;
+    display: flex;
+    padding: 1em;
+}
+
+div #search {
+    align-items: center;
+    display: flex;
+    padding-left: 10px;
+}
+
+div #search form {
+    display: flex;
+}
+
+div #search form button {
+    padding: 4px;
+}
+
+div #search input {
+    height: 2em;
+}
