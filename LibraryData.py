@@ -36,5 +36,30 @@ def get_due_date():
     date = (datetime(2022,1,1) - timedelta(days=1)) + timedelta(days=result['date_due'])
     
     return date
-    
+
+def get_page_data(cur_page, data, count_query, values=None):
+    # Get current ct of items in library
+    count = data.execute(count_query, values)[0][0]
+
+    # Create a page_data dict
+    page_data = {'pages':[], 'current': cur_page, 'max':0}
+
+    # Calculate the number of pages (currently 10 items per page)
+    pages = count // 10
+    if count % 20 != 0:
+        pages += 1
+
+    # Add numbers for use in frontend to 'pages'
+    # key of page_data
+    counter = 1
+    while pages > 0:
+        page_data['pages'].append(counter)
+        counter += 1
+        pages -= 1
+
+    # Save the max pages possible for the navigation
+    # below table in frontend
+    page_data['max'] = len(page_data['pages'])
+
+    return page_data
 
