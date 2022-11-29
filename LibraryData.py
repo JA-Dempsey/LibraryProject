@@ -34,7 +34,6 @@ def get_due_date():
         headers={'Content-Type': 'application/json'})
 
     result = response.json()
-    print(result)
     date = (datetime(2022,1,1) - timedelta(days=1)) + timedelta(days=result['date_due'])
     
     return date
