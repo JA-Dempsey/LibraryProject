@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, session
 from flask_mysqldb import MySQL
 from LibraryData import LibraryData, get_due_date, get_page_data
 from datetime import date
-from time import sleep
 
 
 app = Flask(__name__)
