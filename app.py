@@ -136,7 +136,6 @@ def search_index():
 @app.route("/search/<s_query>/<cur_page>", methods = ["GET"])
 def search(s_query, cur_page):
 
-    print("CURRENTPAGE", cur_page)
     # Build list for the SQL query, must contain
     # One value for each %s replaced in the SQL Query
     value = ['%' + str(s_query) + '%']*5
