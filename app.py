@@ -78,7 +78,7 @@ def add():
         isbn = request.form['isbn']
         category = request.form['category']
 
-        data.execute(''' INSERT INTO Items (name, author, isbn, category) VALUES (%s, %s, %s, %s)''', [name, author, isbn, category])
+        data.execute(''' INSERT INTO Items (name, author, isbn, category, lendee) VALUES (%s, %s, %s, %s, %s)''', [name, author, isbn, category, "In Library"])
 
         # Send user back to main library list
         # After adding to database
