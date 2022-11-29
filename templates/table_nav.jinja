@@ -1,0 +1,15 @@
+<div id="table-nav">
+    {% if page_data['current'] == 1 %}
+        <p class="table-nav">Prev</p>
+    {% else %}
+        <a class="table-nav" href="http://localhost:5000/{{page_data['current']-1}}">Prev</a>
+    {% endif %}
+    {% for page in page_data['pages'] %}
+        <a href="http://localhost:5000/{{page}}">{{page}}</a>
+    {% endfor %}
+    {% if page_data['current'] < page_data['max'] %}
+        <a href="http://localhost:5000/{{page_data['current']+1}}">Next</a>
+    {% else %}
+        <p class="table-nav">Next</p>
+    {% endif %}
+</div>

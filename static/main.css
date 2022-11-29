@@ -77,3 +77,19 @@ div #search form button {
 div #search input {
     height: 2em;
 }
+
+.table-nav {
+    margin: 0;
+}
+
+div #table-nav {
+    display: flex;
+}
+
+div #table-nav a {
+    padding: 2px;
+}
+
+div #table-nav p {
+    padding: 2px;
+}

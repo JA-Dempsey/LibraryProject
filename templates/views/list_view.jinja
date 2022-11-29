@@ -26,3 +26,8 @@
         </tr>
     {% endfor %}
 </table>
+{% if page_data['type'] == 'search' %}
+    {% include 'table_nav_search.jinja' %}
+{% else %}
+    {% include 'table_nav.jinja' %}
+{% endif %}
