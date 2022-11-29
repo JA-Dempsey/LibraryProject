@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect
 from flask_mysqldb import MySQL
 from LibraryData import LibraryData, get_due_date, get_page_data
 from datetime import date
@@ -10,7 +10,6 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'sentientnova'
 app.config['MYSQL_PASSWORD'] = 'YTcqyLuRuqebm6'
 app.config['MYSQL_DB'] = 'library'
-app.secret_key = 'asecretthinghere'
 
 mysql = MySQL(app)
 data = LibraryData(mysql)

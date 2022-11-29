@@ -26,6 +26,8 @@ class LibraryData:
         return results
 
 def get_due_date():
+    """Sends a request to partner's microservice and returns the
+    date due for when a book needs to be checked out."""
     response = requests.post(
         'http://localhost:47774/checkout',
         data='{"allowed_days_checkout":"5"}',
@@ -38,6 +40,8 @@ def get_due_date():
     return date
 
 def get_page_data(cur_page, data, count_query, values=None):
+    """Returns a dictionary of values for the frontend given the current page #, the database LibraryData object, the query to get the count, and any values necessary for the execution
+    of said queries."""
     # Get current ct of items in library
     count = data.execute(count_query, values)[0][0]
 
